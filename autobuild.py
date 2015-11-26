@@ -2,11 +2,13 @@ from optparse import OptionParser
 import subprocess
 import requests
 
+#configuration for iOS build setting
 CODE_SIGN_IDENTITY = "iPhone Distribution: xxxxxxxx Co. Ltd (xxxxxxx9A)"
 PROVISIONING_PROFILE = "xxxxxxxxxx-xxxxx-xxxxx-xxxx-xxxxxxxxxxxx"
 CONFIGURATION = "Release"
 SDK = "iphoneos"
 
+# configuration for pgyer
 PGYER_UPLOAD_URL = "http://www.pgyer.com/apiv1/app/upload"
 DOWNLOAD_BASE_URL = "http://www.pgyer.com"
 USER_KEY = "15d6xxxxxxxxxxxxxxxxxx"
@@ -52,7 +54,7 @@ def buildProject(project, target, output):
 	process = subprocess.Popen(signCmd, shell=True)
 	(stdoutdata, stderrdata) = process.communicate()
 
-#	uploadIpaToPgyer(output)
+	uploadIpaToPgyer(output)
 	cleanBuildDir("./build")
 
 def buildWorkspace(workspace, scheme, output):
@@ -69,8 +71,8 @@ def buildWorkspace(workspace, scheme, output):
 	process = subprocess.Popen(signCmd, shell=True)
 	(stdoutdata, stderrdata) = process.communicate()
 
-#	uploadIpaToPgyer(output)
-#	cleanBuildDir(buildDir)
+	uploadIpaToPgyer(output)
+	cleanBuildDir(buildDir)
 
 def xcbuild(options):
 	project = options.project
