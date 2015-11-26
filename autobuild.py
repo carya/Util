@@ -9,8 +9,8 @@ SDK = "iphoneos"
 
 PGYER_UPLOAD_URL = "http://www.pgyer.com/apiv1/app/upload"
 DOWNLOAD_BASE_URL = "http://www.pgyer.com"
-USER_KEY = "15d6549bf501a3cd59eddce82b667766"
-API_KEY = "ef63a6d888756a4c9232c3bd7a6e9623"
+USER_KEY = "15d6xxxxxxxxxxxxxxxxxx"
+API_KEY = "efxxxxxxxxxxxxxxxxxxxx"
 
 def cleanBuildDir(buildDir):
 	cleanCmd = "rm -r %s" %(buildDir)
