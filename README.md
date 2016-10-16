@@ -31,3 +31,5 @@ PROVISIONING_PROFILE = "xxxxxxxxxx-xxxxx-xxxxx-xxxx-xxxxxxxxxxxx"
 CONFIGURATION = "Release"
 SDK = "iphoneos"
 ```
+
+相关说明见我的博客[iOS自动打包并发布脚本](http://liumh.com/2015/11/25/ios-auto-archive-ipa/)
