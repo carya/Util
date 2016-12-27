@@ -1,5 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
+
+#./autobuild.py -p youproject.xcodeproj -t youproject -o ~/Desktop/youproject.ipa
+#./autobuild.py -w youproject.xcworkspace -s youproject -o ~/Desktop/youproject.ipa
 
 import argparse
 import subprocess
