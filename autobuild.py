@@ -1,4 +1,7 @@
-from optparse import OptionParser
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
+
+import argparse
 import subprocess
 import requests
 
@@ -90,16 +93,16 @@ def xcbuild(options):
 
 def main():
 	
-	parser = OptionParser()
-	parser.add_option("-w", "--workspace", help="Build the workspace name.xcworkspace.", metavar="name.xcworkspace")
-	parser.add_option("-p", "--project", help="Build the project name.xcodeproj.", metavar="name.xcodeproj")
-	parser.add_option("-s", "--scheme", help="Build the scheme specified by schemename. Required if building a workspace.", metavar="schemename")
-	parser.add_option("-t", "--target", help="Build the target specified by targetname. Required if building a project.", metavar="targetname")
-	parser.add_option("-o", "--output", help="specify output filename", metavar="output_filename")
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-w", "--workspace", help="Build the workspace name.xcworkspace.", metavar="name.xcworkspace")
+	parser.add_argument("-p", "--project", help="Build the project name.xcodeproj.", metavar="name.xcodeproj")
+	parser.add_argument("-s", "--scheme", help="Build the scheme specified by schemename. Required if building a workspace.", metavar="schemename")
+	parser.add_argument("-t", "--target", help="Build the target specified by targetname. Required if building a project.", metavar="targetname")
+	parser.add_argument("-o", "--output", help="specify output filename", metavar="output_filename")
 
-	(options, args) = parser.parse_args()
+	options = parser.parse_args()
 
-	print "options: %s, args: %s" % (options, args)
+	print "options: %s" % (options)
 
 	xcbuild(options)
 
