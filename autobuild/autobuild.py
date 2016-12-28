@@ -7,6 +7,7 @@
 import argparse
 import subprocess
 import requests
+import os
 
 #configuration for iOS build setting
 CONFIGURATION = "Debug"
@@ -41,6 +42,7 @@ def parserUploadResult(jsonResult):
 
 def uploadIpaToPgyer(ipaPath):
     print "ipaPath:"+ipaPath
+    ipaPath = os.path.expanduser(ipaPath)
     files = {'file': open(ipaPath, 'rb')}
     headers = {'enctype':'multipart/form-data'}
     payload = {'uKey':USER_KEY,'_api_key':API_KEY,'publishRange':'2','isPublishToPublic':'2', 'password':PYGER_PASSWORD}
@@ -75,6 +77,19 @@ def getIpaPath(exportPath):
 	ipaPath = exportPath + "/" + ipaName
 	return ipaPath
 
+def exportArchive(scheme, archivePath):
+	exportDirectory = buildExportDirectory(scheme)
+	exportCmd = "xcodebuild -exportArchive -archivePath %s -exportPath %s -exportOptionsPlist %s" %(archivePath, exportDirectory, EXPORT_OPTIONS_PLIST)
+	process = subprocess.Popen(exportCmd, shell=True)
+	(stdoutdata, stderrdata) = process.communicate()
+
+	signReturnCode = process.returncode
+	if signReturnCode != 0:
+		print "export %s failed" %(scheme)
+		return ""
+	else:
+		return exportDirectory
+
 def buildProject(project, scheme):
 	archivePath = buildArchivePath(scheme)
 	print "archivePath: " + archivePath
@@ -82,14 +97,16 @@ def buildProject(project, scheme):
 	process = subprocess.Popen(archiveCmd, shell=True)
 	process.wait()
 
-	exportDirectory = buildExportDirectory(scheme)
-	signCmd = "xcodebuild -exportArchive -archivePath %s -exportPath %s -exportOptionsPlist %s" %(archivePath, exportDirectory, EXPORT_OPTIONS_PLIST)
-	process = subprocess.Popen(signCmd, shell=True)
-	(stdoutdata, stderrdata) = process.communicate()
-
-	ipaPath = getIpaPath(exportDirectory)
-	uploadIpaToPgyer(ipaPath)
-	cleanArchiveFile(archivePath)
+	archiveReturnCode = process.returncode
+	if archiveReturnCode != 0:
+		print "archive workspace %s failed" %(workspace)
+		cleanArchiveFile(archivePath)
+	else:
+		exportDirectory = exportArchive(scheme, archivePath)
+		cleanArchiveFile(archivePath)
+		if exportDirectory != "":		
+			ipaPath = getIpaPath(exportDirectory)
+			uploadIpaToPgyer(ipaPath)
 
 def buildWorkspace(workspace, scheme):
 	archivePath = buildArchivePath(scheme)
@@ -98,14 +115,16 @@ def buildWorkspace(workspace, scheme):
 	process = subprocess.Popen(archiveCmd, shell=True)
 	process.wait()
 
-	exportDirectory = buildExportDirectory(scheme)
-	signCmd = "xcodebuild -exportArchive -archivePath %s -exportPath %s -exportOptionsPlist %s" %(archivePath, exportDirectory, EXPORT_OPTIONS_PLIST)
-	process = subprocess.Popen(signCmd, shell=True)
-	(stdoutdata, stderrdata) = process.communicate()
-
-	ipaPath = getIpaPath(exportDirectory)
-	uploadIpaToPgyer(ipaPath)
-	cleanArchiveFile(archivePath)
+	archiveReturnCode = process.returncode
+	if archiveReturnCode != 0:
+		print "archive workspace %s failed" %(workspace)
+		cleanArchiveFile(archivePath)
+	else:
+		exportDirectory = exportArchive(scheme, archivePath)
+		cleanArchiveFile(archivePath)
+		if exportDirectory != "":		
+			ipaPath = getIpaPath(exportDirectory)
+			uploadIpaToPgyer(ipaPath)
 
 def xcbuild(options):
 	project = options.project
