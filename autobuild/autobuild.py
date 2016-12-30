@@ -43,6 +43,7 @@ def parserUploadResult(jsonResult):
 def uploadIpaToPgyer(ipaPath):
     print "ipaPath:"+ipaPath
     ipaPath = os.path.expanduser(ipaPath)
+    ipaPath = unicode(ipaPath, "utf-8")
     files = {'file': open(ipaPath, 'rb')}
     headers = {'enctype':'multipart/form-data'}
     payload = {'uKey':USER_KEY,'_api_key':API_KEY,'publishRange':'2','isPublishToPublic':'2', 'password':PYGER_PASSWORD}
