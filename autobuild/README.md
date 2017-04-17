@@ -1,4 +1,4 @@
-#autobuild.py
+# autobuild.py
 
 iOS 自动化打包脚本，并上传*ipa*文件至蒲公英。参数说明:
 
