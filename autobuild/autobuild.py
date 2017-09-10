@@ -22,6 +22,8 @@ USER_KEY = "15d6xxxxxxxxxxxxxxxxxx"
 API_KEY = "efxxxxxxxxxxxxxxxxxxxx"
 #设置从蒲公英下载应用时的密码
 PYGER_PASSWORD = "" 
+# 蒲公英更新描述
+PGYDESC = ""
 
 def cleanArchiveFile(archiveFile):
 	cleanCmd = "rm -r %s" %(archiveFile)
@@ -46,7 +48,8 @@ def uploadIpaToPgyer(ipaPath):
     ipaPath = unicode(ipaPath, "utf-8")
     files = {'file': open(ipaPath, 'rb')}
     headers = {'enctype':'multipart/form-data'}
-    payload = {'uKey':USER_KEY,'_api_key':API_KEY,'publishRange':'2','isPublishToPublic':'2', 'password':PYGER_PASSWORD}
+    payload = {'uKey':USER_KEY,'_api_key':API_KEY,'publishRange':'2','isPublishToPublic':'2', 'password':PYGER_PASSWORD, 'updateDescription':PGYDESC}
+    print "update desc：" + PGYDESC
     print "uploading...."
     r = requests.post(PGYER_UPLOAD_URL, data = payload ,files=files,headers=headers)
     if r.status_code == requests.codes.ok:
@@ -131,6 +134,10 @@ def xcbuild(options):
 	project = options.project
 	workspace = options.workspace
 	scheme = options.scheme
+	desc = options.desc
+	
+	global PGYDESC
+	PGYDESC = desc
 
 	if project is None and workspace is None:
 		pass
@@ -145,7 +152,7 @@ def main():
 	parser.add_argument("-w", "--workspace", help="Build the workspace name.xcworkspace.", metavar="name.xcworkspace")
 	parser.add_argument("-p", "--project", help="Build the project name.xcodeproj.", metavar="name.xcodeproj")
 	parser.add_argument("-s", "--scheme", help="Build the scheme specified by schemename. Required if building a workspace.", metavar="schemename")
-
+	parser.add_argument("-m", "--desc", help="Pgyer update description.", metavar="description")
 	options = parser.parse_args()
 
 	print "options: %s" % (options)

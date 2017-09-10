@@ -14,6 +14,8 @@ Options:
   -s schemename, --scheme=schemename
                         Build the scheme specified by schemename. Required if
                         building a workspace.
+  -m description, --desc=description
+                        Pgyer update description.
 ```
 
 使用方式:
@@ -44,6 +46,8 @@ USER_KEY = "15d6xxxxxxxxxxxxxxxxxx"
 API_KEY = "efxxxxxxxxxxxxxxxxxxxx"
 #设置从蒲公英下载应用时的密码
 PYGER_PASSWORD = "" 
+# 蒲公英更新描述
+PGYDESC = ""
 ```
 上传*ipa*文件至蒲公英的配置，你需要设置的是:*USER_KEY*, *API_KEY*, *PYGER_PASSWORD*。
 
